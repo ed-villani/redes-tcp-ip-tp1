@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/arthur/projects/redes-tcp-ip-tp1/server.c
+stdio.h
+-
+sys/socket.h
+-
+stdlib.h
+-
+unistd.h
+-
+netinet/in.h
+-
+string.h
+-
+
