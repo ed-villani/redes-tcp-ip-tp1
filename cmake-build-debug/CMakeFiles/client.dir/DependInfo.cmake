@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/arthur/projects/redes-tcp-ip-tp1/client.c" "/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/client.dir/client.c.o"
+  "/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/client.c" "/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/client.dir/client.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

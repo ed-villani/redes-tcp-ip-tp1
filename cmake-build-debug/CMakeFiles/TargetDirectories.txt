@@ -1,4 +1,4 @@
-/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/client.dir
-/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/server.dir
+/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/client.dir
+/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles/server.dir

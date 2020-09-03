@@ -6,17 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/server.c
+/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/client.c
+unistd.h
+-
+string.h
+-
+stdlib.h
+-
 stdio.h
 -
 sys/socket.h
 -
-stdlib.h
--
-unistd.h
--
 netinet/in.h
 -
-string.h
+netdb.h
 -
 

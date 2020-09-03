@@ -64,10 +64,10 @@ RM = /snap/clion/124/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/arthur/projects/redes-tcp-ip-tp1
+CMAKE_SOURCE_DIR = /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug
+CMAKE_BINARY_DIR = /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -96,14 +96,14 @@ clean: CMakeFiles/server.dir/clean
 CMakeFiles/client.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target client"
 .PHONY : CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/client.dir/rule
 
 # Convenience name for target.
@@ -123,14 +123,14 @@ CMakeFiles/client.dir/clean:
 CMakeFiles/server.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target server"
 .PHONY : CMakeFiles/server.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/server.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/projects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/arthur/Documents/MyProjects/redes-tcp-ip-tp1/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/server.dir/rule
 
 # Convenience name for target.
