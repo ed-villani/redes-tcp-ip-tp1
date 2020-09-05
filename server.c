@@ -40,8 +40,19 @@ int main() {
             perror("simplex-talk: accept");
             exit(1);
         }
-        while (len = recv(new_s, buf, sizeof(buf), 0))
+        while (len = recv(new_s, buf, sizeof(buf), 0)){
+            printf("received: ");
             fputs(buf, stdout);
+
+            if(fgets(buf, sizeof(buf), stdin)){
+                printf("sent: ");
+                buf[MAX_LINE-1] = '\0';
+                len = strlen(buf)+1;
+                send(s, buf, len, 0);
+            }
+
+        }
+
         close(new_s);
     }
 }
