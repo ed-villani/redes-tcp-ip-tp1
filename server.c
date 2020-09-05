@@ -35,7 +35,9 @@ int main() {
         exit(1);
     }
     len = sizeof(sin);
-    listen(s, MAX_PENDING);/*wait for connection, then receive and print text*/while (1) {
+    listen(s, MAX_PENDING);
+    /*wait for connection, then receive and print text*/
+    while (1) {
         if ((new_s = accept(s, (struct sockaddr *) &sin, &len)) < 0) {
             perror("simplex-talk: accept");
             exit(1);
@@ -44,15 +46,13 @@ int main() {
             printf("received: ");
             fputs(buf, stdout);
 
-            if(fgets(buf, sizeof(buf), stdin)){
-                printf("sent: ");
-                buf[MAX_LINE-1] = '\0';
-                len = strlen(buf)+1;
-                send(s, buf, len, 0);
+            printf("sent: ");
+            buf[MAX_LINE-1] = '\0';
+            len = strlen(buf)+1;
+            fputs(buf, stdout);
+            send(new_s, buf, len, 0);
             }
 
-        }
-
         close(new_s);
+        }
     }
-}
