@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     sin.sin_port = htons(SERVER_PORT);
 
     /*active open*/
-    if ((s = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("simplex-talk: socket");
         exit(1);
     }

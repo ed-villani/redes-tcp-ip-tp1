@@ -26,7 +26,7 @@ int main() {
     sin.sin_port = htons(SERVER_PORT);
 
     /*setup passive open*/
-    if ((s = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("simplex-talk: socket");
         exit(1);
     }
@@ -35,13 +35,14 @@ int main() {
         exit(1);
     }
     len = sizeof(sin);
-    listen(s, MAX_PENDING);/*wait for connection, then receive and print text*/while (1) {
-        if ((new_s = accept(s, (struct sockaddr *) &sin, &len)) < 0) {
-            perror("simplex-talk: accept");
-            exit(1);
-        }
-        while (len = recv(new_s, buf, sizeof(buf), 0))
+//    listen(s, MAX_PENDING);/*wait for connection, then receive and print text*/
+//    while (1) {
+//        if ((new_s = accept(s, (struct sockaddr *) &sin, &len)) < 0) {
+//            perror("simplex-talk: accept");
+//            exit(1);
+//        }
+        while (len = recv(s, buf, sizeof(buf), 0))
             fputs(buf, stdout);
-        close(new_s);
-    }
+        close(s);
+//    }
 }
