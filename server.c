@@ -10,7 +10,6 @@
 #include <string.h>
 
 #define SERVER_PORT  54321
-#define MAX_PENDING  5
 #define MAX_LINE     256
 
 int main() {
@@ -34,16 +33,15 @@ int main() {
         perror("simplex-talk: bind");
         exit(1);
     }
-        while (len = recv(s, buf, sizeof(buf), 0)){
-            printf("received: ");
-            fputs(buf, stdout);
+    while (len = recv(s, buf, sizeof(buf), 0)) {
+        printf("received: ");
+        fputs(buf, stdout);
 
-            printf("sent: ");
-            buf[MAX_LINE-1] = '\0';
-            len = strlen(buf)+1;
-            fputs(buf, stdout);
-            send(s, buf, len, 0);
-            }
-
-        close(s);
+        printf("sent: ");
+        buf[MAX_LINE-1] = '\0';
+        len = strlen(buf)+1;
+        fputs(buf, stdout);
+        send(s, buf, len, 0);
     }
+    close(s);
+}
