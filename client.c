@@ -35,7 +35,7 @@ int main(int argc, char * argv[]) {
     bcopy(hp->h_addr, (char *) &sin.sin_addr, hp->h_length);
     sin.sin_port = htons(SERVER_PORT);
     /* active open */
-    if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((s = socket(PF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("simplex-talk: socket");
         exit(1);
     }
