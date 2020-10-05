@@ -41,7 +41,10 @@ int main() {
         buf[MAX_LINE-1] = '\0';
         len = strlen(buf)+1;
         fputs(buf, stdout);
-        send(s, buf, len, 0);
+//        send(s, buf, len, 0);
+        sendto(s, (const char *)buf, strlen(buf) + 1,
+               MSG_CONFIRM, (const struct sockaddr *) &sin,
+               sizeof(sin));
     }
     close(s);
 }
