@@ -42,9 +42,10 @@ int main() {
         len = strlen(buf)+1;
         fputs(buf, stdout);
 //        send(s, buf, len, 0);
+        int k = sizeof(sin)
         sendto(s, (const char *)buf, strlen(buf) + 1,
                MSG_CONFIRM, (const struct sockaddr *) &sin,
-               sizeof(sin));
+               k);
     }
     close(s);
 }
