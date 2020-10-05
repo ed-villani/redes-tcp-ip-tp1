@@ -51,7 +51,8 @@ int main(int argc, char * argv[]) {
             len = strlen(buf) + 1;
             send(s, buf, len, 0);
         }
-        if ((len = recvfrom(s, (char *)buf, MAXLINE, MSG_WAITALL, ( struct sockaddr *) &sin, &sizeof(sin))) != 0) {
+        int k = sizeof(sin);
+        if ((len = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, ( struct sockaddr *) &sin, &k)) != 0) {
             printf("received: ");
             fputs(buf, stdout);
         }
