@@ -49,22 +49,31 @@ int main(int argc, char * argv[]) {
         close(s);
         exit(1);
     }
-
+    long int i = 1;
     while(1) {
-        if(fgets(buf, sizeof(buf), stdin)) {
+        if (i > 100000)
+            break;
+        char i_str[20];
+        sprintf(i_str, "%ld", i);
+        strcpy(buf, i_str);
+        if(1) {
+            printf("%ld,", i);
             gettimeofday(&start, NULL);
             sendto(s, (const char *) buf, strlen(buf),
                    MSG_CONFIRM, (const struct sockaddr *) &sin,
                    sizeof(sin));
-            printf("Message sent.\n");
+            i = i + 1;
+//            printf("Message sent.\n");
         }
         n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
         if (n>0){
             gettimeofday(&stop, NULL);
-            printf("\ntook %lu us\n", (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec);
+            long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
+            printf("%lu\n", delta);
+//            printf("\ntook %lu us\n", delta);
         }
         buf[n] = '\0';
-        printf("received: ");
+//        printf("received: ");
         fputs(buf, stdout);
     }
 }
