@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <sys/time.h>
 #include <string.h>
 #include <arpa/inet.h>
 
@@ -18,6 +19,7 @@ int main(int argc, char * argv[]) {
     char buf[MAX_LINE];
     int s;
     int n, len;
+    struct timeval stop, start;
 
     if (argc == 2) {
         host = argv[1];
@@ -50,13 +52,17 @@ int main(int argc, char * argv[]) {
 
     while(1) {
         if(fgets(buf, sizeof(buf), stdin)) {
+            gettimeofday(&start, NULL);
             sendto(s, (const char *) buf, strlen(buf),
                    MSG_CONFIRM, (const struct sockaddr *) &sin,
                    sizeof(sin));
             printf("Message sent.\n");
         }
         n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
-
+        if (n>0){
+            gettimeofday(&stop, NULL);
+            printf("\ntook %lu us\n", (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec);
+        }
         buf[n] = '\0';
         printf("received: ");
         fputs(buf, stdout);
