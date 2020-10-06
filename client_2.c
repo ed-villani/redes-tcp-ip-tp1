@@ -1,4 +1,3 @@
-
 // Client side implementation of UDP client-server model
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,43 +8,40 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-#define PORT     8080
-#define MAXLINE 1024
+#define PORT	 8080
+#define MAX_LINE 256
 
 // Driver code
 int main() {
-    int sockfd;
-    char buffer[MAXLINE];
-    char *hello = "Hello from client";
-    struct sockaddr_in     servaddr;
+    int s;
+    struct sockaddr_in	 sin;
+    char buf[MAX_LINE];
 
     // Creating socket file descriptor
-    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+    if ( (s = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
         perror("socket creation failed");
         exit(EXIT_FAILURE);
     }
 
-    memset(&servaddr, 0, sizeof(servaddr));
+    memset(&sin, 0, sizeof(sin));
 
     // Filling server information
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(PORT);
-    servaddr.sin_addr.s_addr = INADDR_ANY;
+    sin.sin_family = AF_INET;
+    sin.sin_port = htons(PORT);
+    sin.sin_addr.s_addr = INADDR_ANY;
 
     int n, len;
-
     while(1) {
-        sendto(sockfd, (const char *) hello, strlen(hello),
-               MSG_CONFIRM, (const struct sockaddr *) &servaddr,
-               sizeof(servaddr));
-        printf("Hello message sent.\n");
+        if(fgets(buf, sizeof(buf), stdin)) {
+            sendto(s, (const char *) buf, strlen(buf),
+                   MSG_CONFIRM, (const struct sockaddr *) &sin,
+                   sizeof(sin));
+            printf("Message sent.\n");
+        }
+        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
 
-        n = recvfrom(sockfd, (char *) buffer, MAXLINE,
-                     MSG_WAITALL, (struct sockaddr *) &servaddr,
-                     &len);
-        buffer[n] = '\0';
-        printf("Server : %s\n", buffer);
-
-        close(sockfd);
+        buf[n] = '\0';
+        printf("received: ");
+        fputs(buf, stdout);
     }
 }

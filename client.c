@@ -7,15 +7,18 @@
 #include <unistd.h>
 #include <string.h>
 #include <arpa/inet.h>
+
 #define SERVER_PORT 54321
 #define MAX_LINE 256
+
 int main(int argc, char * argv[]) {
     struct hostent *hp;
     struct sockaddr_in sin;
     char *host;
     char buf[MAX_LINE];
     int s;
-    int len, new_s;
+    int n, len;
+
     if (argc == 2) {
         host = argv[1];
     } else {
@@ -44,17 +47,18 @@ int main(int argc, char * argv[]) {
         close(s);
         exit(1);
     }
-    while (1) {
-        printf("sent: ");
-        if (fgets(buf, sizeof(buf), stdin)) {
-            buf[MAX_LINE - 1] = '\0';
-            len = strlen(buf) + 1;
-            send(s, buf, len, 0);
+
+    while(1) {
+        if(fgets(buf, sizeof(buf), stdin)) {
+            sendto(s, (const char *) buf, strlen(buf),
+                   MSG_CONFIRM, (const struct sockaddr *) &sin,
+                   sizeof(sin));
+            printf("Message sent.\n");
         }
-        int k = sizeof(sin);
-        if ((len = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, ( struct sockaddr *) &sin, &k)) != 0) {
-            printf("received: ");
-            fputs(buf, stdout);
-        }
+        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
+
+        buf[n] = '\0';
+        printf("received: ");
+        fputs(buf, stdout);
     }
 }

@@ -9,14 +9,14 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-#define PORT     8080
+#define PORT     54321
 #define MAXLINE 1024
 
 // Driver code
 int main() {
     int sockfd;
     char buffer[MAXLINE];
-    char *hello = "Hello from server";
+    char aux_buffer[MAXLINE];
     struct sockaddr_in servaddr, cliaddr;
 
     // Creating socket file descriptor
@@ -41,20 +41,14 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    while(1) {
-        int len, n;
+    int len, n;
 
-        len = sizeof(cliaddr);  //len is value/resuslt
-        while (n = recvfrom(sockfd, (char *) buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &cliaddr, &len)) {
-            buffer[n] = '\0';
-            printf("Client : %s\n", buffer);
-            sendto(
-                    sockfd,
-                    (const char *) hello,
-                    strlen(hello),
-                    MSG_CONFIRM,
-                    (const struct sockaddr *) &cliaddr, len);
-            printf("Hello message sent.\n");
-        }
+    len = sizeof(cliaddr);  //len is value/resuslt
+
+    while(n = recvfrom(sockfd, (char *)buffer, MAXLINE, MSG_WAITALL, ( struct sockaddr *) &cliaddr, &len)) {
+        buffer[n] = '\0';
+        printf("Client : %s\n", buffer);
+        printf("Message sent back.\n");
+        sendto(sockfd, (const char *) buffer, strlen(buffer), MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);
     }
 }

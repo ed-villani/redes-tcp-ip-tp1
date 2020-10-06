@@ -13,13 +13,15 @@
 #define MAX_LINE     256
 
 int main() {
-    struct sockaddr_in sin;
+    struct sockaddr_in sin, cliaddr;
     char buf[MAX_LINE];
-    int len;
+    int len, n;
     int s;
 
     /*build address data structure*/
     bzero((char *) &sin, sizeof(sin));
+    bzero((char *) &cliaddr, sizeof(cliaddr));
+
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = INADDR_ANY;
     sin.sin_port = htons(SERVER_PORT);
@@ -33,19 +35,14 @@ int main() {
         perror("simplex-talk: bind");
         exit(1);
     }
-    while (len = recv(s, buf, sizeof(buf), 0)) {
-        printf("received: ");
-        fputs(buf, stdout);
 
-        printf("sent: ");
-        buf[MAX_LINE-1] = '\0';
-        len = strlen(buf)+1;
-        fputs(buf, stdout);
-//        send(s, buf, len, 0);
-        int k = sizeof(sin)
-        sendto(s, (const char *)buf, strlen(buf) + 1,
-               MSG_CONFIRM, (const struct sockaddr *) &sin,
-               k);
+
+    len = sizeof(cliaddr);  //len is value/resuslt
+
+    while(n = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, ( struct sockaddr *) &cliaddr, &len)) {
+        buf[n] = '\0';
+        printf("Client : %s\n", buf);
+        printf("Message sent back.\n");
+        sendto(s, (const char *) buf, strlen(buf), MSG_CONFIRM, (const struct sockaddr *) &cliaddr, len);
     }
-    close(s);
 }
