@@ -33,7 +33,17 @@ int main() {
         perror("simplex-talk: bind");
         exit(1);
     }
-        while (len = recv(s, buf, sizeof(buf), 0))
+    while (1) {
+        while (len = recv(s, buf, sizeof(buf), 0)) {
+            printf("received: ");
             fputs(buf, stdout);
+
+            printf("sent: ");
+            buf[MAX_LINE-1] = '\0';
+            len = strlen(buf)+1;
+            fputs(buf, stdout);
+            send(s, buf, len, 0);
+        }
         close(s);
+    }
 }
