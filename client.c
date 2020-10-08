@@ -18,14 +18,14 @@ FILE *createOrFindFile(char *wanted_size) {
     if (access(filename, R_OK) != -1) {
         return fopen(filename, "r");
     }
-    fp = fopen(filename, "w+");
+    fp = fopen(filename, "w");
     int wanted_size_int = atoi(wanted_size);
     if (fp) {
-        // Now go to the intended end of the file
-        // (subtract 1 since we're writing a single character).
-        fseek(fp, wanted_size_int - 1, SEEK_SET);
-        // Write at least one byte to extend the file (if necessary).
-        fwrite("", 1, sizeof(char), fp);
+        for (int i = 0; i < wanted_size_int; i++) {
+            fprintf(fp, "%d", i);
+            if(ftell(fp)==wanted_size_int)
+                break;
+        }
         fclose(fp);
     }
 
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     while (1) {
         if (i > 100000)
             break;
-        if (getc(fp) == EOF) {
+        if (i%4==1) {
             fclose(fp);
             fp = createOrFindFile(file_size);
         }
@@ -90,17 +90,17 @@ int main(int argc, char *argv[]) {
             i = i + 1;
             printf("Message sent.\n");
         }
-//        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
-//        if (n > 0) {
-//            printf("oi");
-//            gettimeofday(&stop, NULL);
-//            long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
-//            //printf("%lu\n", delta);
-//            printf("\ntook %lu us\n", delta);
-//        }
-//        buf[n] = '\0';
-//        printf("received: ");
-//        fputs(buf, stdout);
+        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
+        if (n > 0) {
+            gettimeofday(&stop, NULL);
+            long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
+            //printf("%lu\n", delta);
+            printf("\ntook %lu us\n", delta);
+        }
+        buf[n] = '\0';
+        printf("received: ");
+        fputs(buf, stdout);
+        printf("\n");
     }
 }
 
