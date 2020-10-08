@@ -12,7 +12,27 @@
 #define SERVER_PORT 54321
 #define MAX_LINE 256
 
-int main(int argc, char * argv[]) {
+FILE *createOrFindFile(char *wanted_size) {
+    FILE *fp;
+    char *filename = "test.dat";
+    if (access(filename, R_OK) != -1) {
+        return fopen(filename, "r");
+    }
+    fp = fopen(filename, "w+");
+    int wanted_size_int = atoi(wanted_size);
+    if (fp) {
+        // Now go to the intended end of the file
+        // (subtract 1 since we're writing a single character).
+        fseek(fp, wanted_size_int - 1, SEEK_SET);
+        // Write at least one byte to extend the file (if necessary).
+        fwrite("", 1, sizeof(char), fp);
+        fclose(fp);
+    }
+
+    return fopen(filename, "r");
+}
+
+int main(int argc, char *argv[]) {
     struct hostent *hp;
     struct sockaddr_in sin;
     char *host;
@@ -20,6 +40,9 @@ int main(int argc, char * argv[]) {
     int s;
     int n, len;
     struct timeval stop, start;
+    FILE *fp;
+    char file_size[] = "1024";
+    fp = createOrFindFile(file_size);
 
     if (argc == 2) {
         host = argv[1];
@@ -49,31 +72,35 @@ int main(int argc, char * argv[]) {
         close(s);
         exit(1);
     }
+
     long int i = 1;
-    while(1) {
+    while (1) {
         if (i > 100000)
             break;
-        char i_str[20];
-        sprintf(i_str, "%ld", i);
-        strcpy(buf, i_str);
-        if(1) {
+        if (getc(fp) == EOF) {
+            fclose(fp);
+            fp = createOrFindFile(file_size);
+        }
+        if (fgets(buf, sizeof(buf), fp)) {
             printf("%ld,", i);
             gettimeofday(&start, NULL);
             sendto(s, (const char *) buf, strlen(buf),
                    MSG_CONFIRM, (const struct sockaddr *) &sin,
                    sizeof(sin));
             i = i + 1;
-//            printf("Message sent.\n");
+            printf("Message sent.\n");
         }
-        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
-        if (n>0){
-            gettimeofday(&stop, NULL);
-            long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
-            printf("%lu\n", delta);
+//        n = recvfrom(s, (char *) buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *) &sin, &len);
+//        if (n > 0) {
+//            printf("oi");
+//            gettimeofday(&stop, NULL);
+//            long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
+//            //printf("%lu\n", delta);
 //            printf("\ntook %lu us\n", delta);
-        }
-        buf[n] = '\0';
+//        }
+//        buf[n] = '\0';
 //        printf("received: ");
-        fputs(buf, stdout);
+//        fputs(buf, stdout);
     }
 }
+
