@@ -53,3 +53,6 @@ dkms.conf
 .idea
 client
 server
+.DS_store
+*.dat
+.idea/
