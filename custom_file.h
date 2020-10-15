@@ -12,10 +12,10 @@ FILE *createOrFindFile(char *wanted_size)
 {
     FILE *fp;
     char *filename = "test.dat";
-    if (access(filename, R_OK) != -1)
-    {
-        return fopen(filename, "r");
-    }
+    // if (access(filename, R_OK) != -1)
+    // {
+    //     return fopen(filename, "r");
+    // }
     fp = fopen(filename, "w");
     int wanted_size_int = atoi(wanted_size);
     if (fp)

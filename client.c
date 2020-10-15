@@ -12,7 +12,6 @@
 
 #define SERVER_PORT 54321
 #define MAX_LINE 256
-#define MSG_CONFIRM 0
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +20,7 @@ int main(int argc, char *argv[])
     char *file_size;
     char *host;
     char buf[MAX_LINE];
-    long unsigned int iteration_numbers = 100000;
+    long unsigned int iteration_numbers = 1000;
     int s;
     int n, len;
     struct timeval stop, start;
@@ -30,17 +29,8 @@ int main(int argc, char *argv[])
     if (argc > 1)
     {
         host = argv[1];
-
-        if (argc == 3)
-        {
-            file_size = argv[2];
-        }
-
-        if (argc == 4)
-        {
-            char *eptr;
-            iteration_numbers = strtoul(argv[3], &eptr, 10);
-        }
+        file_size = argv[2];
+        
     }
     else
     {
@@ -73,38 +63,43 @@ int main(int argc, char *argv[])
         close(s);
         exit(1);
     }
-    long int i = 1;
+    long int k = 0;
+    long int i = 0;
     fp = createOrFindFile(file_size);
     while (1)
     {
-        if (i > iteration_numbers)
+        if (k > iteration_numbers - 1)
             break;
-        if (i % 4 == 1)
+        if (atoi(file_size) < MAX_LINE || i % (atoi(file_size)/MAX_LINE) == 0)
         {
             fclose(fp);
             fp = createOrFindFile(file_size);
+            k = k + 1;
         }
         if (fgets(buf, sizeof(buf), fp))
         {
             printf("%ld,", i);
+            printf("%ld,", sizeof(buf));
+            printf("%ld,", k);
             gettimeofday(&start, NULL);
+            sleep(0.5);
             sendto(s, (const char *)buf, strlen(buf),
                    MSG_CONFIRM, (const struct sockaddr *)&sin,
                    sizeof(sin));
             i = i + 1;
-            printf("Message sent.\n");
+            // printf("Message sent.\n");
         }
         n = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *)&sin, &len);
         if (n > 0)
         {
             gettimeofday(&stop, NULL);
             long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
-            //printf("%lu\n", delta);
-            printf("\ntook %lu us\n", delta);
+            printf("%lu\n", delta);
+            // printf("\ntook %lu us\n", delta);
         }
         buf[n] = '\0';
-        printf("received: ");
-        fputs(buf, stdout);
-        printf("\n");
+        // printf("received: ");
+        // fputs(buf, stdout);
+        // printf("\n");
     }
 }
