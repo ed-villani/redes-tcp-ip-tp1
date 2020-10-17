@@ -10,7 +10,6 @@
 #include <string.h>
 
 #define SERVER_PORT 54321
-#define MSG_CONFIRM 0
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +17,7 @@ int main(int argc, char *argv[])
     unsigned int MAX_LINE;
     int len, n;
     int s;
+    char ack[74] = "ack ok";
 
     if (argc == 2)
     {
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         buf[n] = '\0';
         printf("Client Msg recved.");
         printf("Client : %s\n", buf);
-        printf("Message sent back.\n");
-        sendto(s, (const char *)buf, strlen(buf), MSG_CONFIRM, (const struct sockaddr *)&cliaddr, len);
+        sendto(s, (const char *)ack, strlen(ack), MSG_CONFIRM, (const struct sockaddr *)&cliaddr, len);
+        printf("ACK (%s) sent back.\n", ack);
     }
 }
