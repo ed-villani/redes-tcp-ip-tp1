@@ -11,7 +11,6 @@
 #include "custom_file.h"
 
 #define SERVER_PORT 54321
-#define MAX_LINE 256
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +18,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in sin;
     char *file_size;
     char *host;
-    char buf[MAX_LINE];
+
     long unsigned int iteration_numbers = 1000;
     int s;
     int n, len;
@@ -30,14 +29,14 @@ int main(int argc, char *argv[])
     {
         host = argv[1];
         file_size = argv[2];
-        
     }
     else
     {
         fprintf(stderr, "usage: simplex-talk host\n");
         exit(1);
     }
-
+    unsigned int MAX_LINE = atoi(file_size);
+    char buf[MAX_LINE];
     /* translate host name into peer’s IP address */
     hp = gethostbyname(host);
     if (!hp)
@@ -70,7 +69,7 @@ int main(int argc, char *argv[])
     {
         if (k > iteration_numbers - 1)
             break;
-        if (atoi(file_size) < MAX_LINE || i % (atoi(file_size)/MAX_LINE) == 0)
+        if (atoi(file_size) < MAX_LINE || i % (atoi(file_size) / MAX_LINE) == 0)
         {
             fclose(fp);
             fp = createOrFindFile(file_size);

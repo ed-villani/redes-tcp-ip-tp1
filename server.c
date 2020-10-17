@@ -10,16 +10,26 @@
 #include <string.h>
 
 #define SERVER_PORT 54321
-#define MAX_LINE 256
 #define MSG_CONFIRM 0
 
-int main()
+int main(int argc, char *argv[])
 {
     struct sockaddr_in sin, cliaddr;
-    char buf[MAX_LINE];
+    unsigned int MAX_LINE;
     int len, n;
     int s;
 
+    if (argc == 2)
+    {
+        MAX_LINE = atoi(argv[1]);
+    }
+    else
+    {
+        fprintf(stderr, "arg error");
+        exit(1);
+    }
+
+    char buf[MAX_LINE];
     /*build address data structure*/
     bzero((char *)&sin, sizeof(sin));
     bzero((char *)&cliaddr, sizeof(cliaddr));
