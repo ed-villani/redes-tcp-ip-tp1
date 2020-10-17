@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     {
         host = argv[1];
         file_size = argv[2];
-        
+        MAX_LINE = atoi(file_size);
     }
     else
     {
