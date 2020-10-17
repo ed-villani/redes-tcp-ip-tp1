@@ -11,7 +11,7 @@
 #include "custom_file.h"
 
 #define SERVER_PORT 54321
-#define MAX_LINE 256
+// #define MAX_LINE 10
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in sin;
     char *file_size;
     char *host;
-    char buf[MAX_LINE];
+    int MAX_LINE;
     long unsigned int iteration_numbers = 1000;
     int s;
     int n, len;
@@ -30,13 +30,14 @@ int main(int argc, char *argv[])
     {
         host = argv[1];
         file_size = argv[2];
+        
     }
     else
     {
         fprintf(stderr, "usage: simplex-talk host\n");
         exit(1);
     }
-
+    char buf[MAX_LINE];
     /* translate host name into peer’s IP address */
     hp = gethostbyname(host);
     if (!hp)
@@ -62,24 +63,24 @@ int main(int argc, char *argv[])
         close(s);
         exit(1);
     }
-    long int k = 0;
+    // long int k = 0;
     long int i = 0;
-    fp = createOrFindFile(file_size);
+
     while (1)
     {
-        if (k > iteration_numbers - 1)
+        fp = createOrFindFile(file_size);
+        if (i > iteration_numbers - 1)
             break;
-        if (atoi(file_size) < MAX_LINE || i % (atoi(file_size) / MAX_LINE) == 0)
-        {
-            fclose(fp);
-            fp = createOrFindFile(file_size);
-            k = k + 1;
-        }
+        // if (atoi(file_size) < MAX_LINE || i % (atoi(file_size)/MAX_LINE) == 0)
+        // {
+        //     fp = createOrFindFile(file_size);
+        //     k = k + 1;
+        // }
         if (fgets(buf, sizeof(buf), fp))
         {
             printf("%ld,", i);
             printf("%ld,", sizeof(buf));
-            printf("%ld,", k);
+            // printf("%ld,", k);
             gettimeofday(&start, NULL);
             sleep(0.5);
             sendto(s, (const char *)buf, strlen(buf),
@@ -100,5 +101,6 @@ int main(int argc, char *argv[])
         // printf("received: ");
         // fputs(buf, stdout);
         // printf("\n");
+        fclose(fp);
     }
 }
