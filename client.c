@@ -13,6 +13,19 @@
 #define SERVER_PORT 54321
 // #define MAX_LINE 10
 
+int rand_str(char *dest, size_t length) {
+    char charset[] = "0123456789"
+                     "abcdefghijklmnopqrstuvwxyz"
+                     "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    while (length-- > 0) {
+        size_t index = (double) rand() / RAND_MAX * (sizeof charset - 1);
+        *dest++ = charset[index];
+    }
+    *dest = '\0';
+    return 1;
+}
+
 int main(int argc, char *argv[])
 {
     struct hostent *hp;
@@ -20,12 +33,12 @@ int main(int argc, char *argv[])
     char *file_size;
     char *host;
     int MAX_LINE;
-    long unsigned int iteration_numbers = 1000;
+    long unsigned int iteration_numbers = 1;
     int s;
     int n, len;
     struct timeval stop, start;
     FILE *fp;
-
+    
     if (argc > 1)
     {
         host = argv[1];
@@ -65,10 +78,10 @@ int main(int argc, char *argv[])
     }
     // long int k = 0;
     long int i = 0;
-
     while (1)
-    {
-        fp = createOrFindFile(file_size);
+    {   
+
+        // fp = createOrFindFile(file_size);
         if (i > iteration_numbers - 1)
             break;
         // if (atoi(file_size) < MAX_LINE || i % (atoi(file_size)/MAX_LINE) == 0)
@@ -76,8 +89,9 @@ int main(int argc, char *argv[])
         //     fp = createOrFindFile(file_size);
         //     k = k + 1;
         // }
-        if (fgets(buf, sizeof(buf), fp))
-        {
+        // if (fgets(buf, sizeof(buf), fp))
+        if (rand_str(buf, MAX_LINE))
+        {   
             printf("%ld,", i);
             printf("%ld,", sizeof(buf));
             // printf("%ld,", k);
@@ -89,8 +103,8 @@ int main(int argc, char *argv[])
             i = i + 1;
             // printf("Message sent.\n");
         }
-        n = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *)&sin, &len);
-        if (n > 0)
+        n = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *)&sin, &len); 
+        if (n)
         {
             gettimeofday(&stop, NULL);
             long unsigned delta = (stop.tv_sec - start.tv_sec) * 1000000 + stop.tv_usec - start.tv_usec;
@@ -101,6 +115,6 @@ int main(int argc, char *argv[])
         // printf("received: ");
         // fputs(buf, stdout);
         // printf("\n");
-        fclose(fp);
+        // fclose(fp);
     }
 }
