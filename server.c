@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     {
         buf[n] = '\0';
         printf("Client Msg recved.");
-        // printf("Client : %s\n", buf);
+        printf("Client : %s\n", buf);
         printf("Message sent back.\n");
         sendto(s, (const char *)buf, strlen(buf), MSG_CONFIRM, (const struct sockaddr *)&cliaddr, len);
     }

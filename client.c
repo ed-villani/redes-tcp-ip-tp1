@@ -33,12 +33,12 @@ int main(int argc, char *argv[])
     char *file_size;
     char *host;
     int MAX_LINE;
-    long unsigned int iteration_numbers = 1;
+    long unsigned int iteration_numbers = 300;
     int s;
     int n, len;
     struct timeval stop, start;
     FILE *fp;
-    
+
     if (argc > 1)
     {
         host = argv[1];
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         //     k = k + 1;
         // }
         // if (fgets(buf, sizeof(buf), fp))
-        if (rand_str(buf, MAX_LINE))
+        if (rand_str(buf, MAX_LINE+1))
         {   
             printf("%ld,", i);
             printf("%ld,", sizeof(buf));
