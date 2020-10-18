@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     char *file_size;
     char *host;
     int MAX_LINE;
-    long unsigned int iteration_numbers = 300;
+    long unsigned int iteration_numbers = 1000;
     int s;
     int n, len;
     struct timeval stop, start;

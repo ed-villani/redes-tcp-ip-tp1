@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
     while (n = recvfrom(s, (char *)buf, MAX_LINE, MSG_WAITALL, (struct sockaddr *)&cliaddr, &len))
     {
         buf[n] = '\0';
-        printf("Client Msg recved.");
+        printf("Client Msg recved.\n");
         printf("Client : %s\n", buf);
         sendto(s, (const char *)ack, strlen(ack), MSG_CONFIRM, (const struct sockaddr *)&cliaddr, len);
-        printf("ACK (%s) sent back.\n", ack);
+        printf("ACK (%s) sent back. ACK Size: %ld.\n", ack, sizeof(ack));
     }
 }
