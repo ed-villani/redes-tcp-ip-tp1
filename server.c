@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     unsigned int MAX_LINE;
     int len, n;
     int s;
-    char ack[74] = "ack ok";
+    char ack[8] = "ack ok";
 
     if (argc == 2)
     {
